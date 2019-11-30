@@ -15,50 +15,50 @@ redirect_from:
   - "tips/use-react-with-other-libraries.html"
 ---
 
-This page contains a detailed API reference for the React component class definition. It assumes you're familiar with fundamental React concepts, such as [Components and Props](/docs/components-and-props.html), as well as [State and Lifecycle](/docs/state-and-lifecycle.html). If you're not, read them first.
+Deze pagina bevat een uitgebreide API reference van de React component class. Er wordt ervan uitgegaan dat je bekend bent met fundamentele React concepten, zoals [Componenten en Props](/docs/components-and-props.html), evenals [State en Lifecycle](/docs/state-and-lifecycle.html). Als je dat niet bent, lees er dan eerst over.
 
-## Overview {#overview}
+## Overzicht {#overview}
 
-React lets you define components as classes or functions. Components defined as classes currently provide more features which are described in detail on this page. To define a React component class, you need to extend `React.Component`:
+React laat je componenten definiëren als classes of functies. Componenten die als classes gedefinieerd zijn bieden momeenteel meer mogelijkheden en die worden op deze pagina in detail beschreven. Om een React component class te definiëren moet je `React.Component` uitbreiden:
 
 ```js
 class Welcome extends React.Component {
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return <h1>Hallo, {this.props.name}</h1>;
   }
 }
 ```
 
-The only method you *must* define in a `React.Component` subclass is called [`render()`](#render). All the other methods described on this page are optional.
+De enige methode die gedefinieerd *moet* worden in een subclass van `React.Component` is [`render()`](#render). Alle andere beschreven methoden op deze pagina zijn optioneel.
 
-**We strongly recommend against creating your own base component classes.** In React components, [code reuse is primarily achieved through composition rather than inheritance](/docs/composition-vs-inheritance.html).
+**We raden sterk af om je eigen basis class te creëeren.** In React componenten, [wordt hergebruik van code hoofdzakelijk bereikt door compositie in plaats van inheritance](/docs/composition-vs-inheritance.html).
 
->Note:
+>Opmerking:
 >
->React doesn't force you to use the ES6 class syntax. If you prefer to avoid it, you may use the `create-react-class` module or a similar custom abstraction instead. Take a look at [Using React without ES6](/docs/react-without-es6.html) to learn more.
+>React dwingt je niet om de ES6 class syntax te gebruiken. Als je die probeert te vermijden, kun je, in plaats daarvan, de `create-react-class` module gebruiken of een vergelijkbare aangepaste abstractie. Kijk maar eens naar [Gebruik React zonder ES6](/docs/react-without-es6.html) als je er meer van wilt weten.
 
-### The Component Lifecycle {#the-component-lifecycle}
+### De Lifecycle Van Componenten {#the-component-lifecycle}
 
-Each component has several "lifecycle methods" that you can override to run code at particular times in the process. **You can use [this lifecycle diagram](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/) as a cheat sheet.** In the list below, commonly used lifecycle methods are marked as **bold**. The rest of them exist for relatively rare use cases.
+Iedere component heeft verschillende "lifecycle methods" die je kunt overriden om op specifieke momenten in het process code uit te voeren. **Je kunt [dit lifecycle diagram](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/) gebruiken als spiekbrief** In de onderstaande lijst zijn alledaags gebruikte methoden in **bold** weergegeven. De overigen bestaan voor relatief zeldzame gevallen.
 
-#### Mounting {#mounting}
+#### Aankoppelen (Mounting) {#mounting}
 
-These methods are called in the following order when an instance of a component is being created and inserted into the DOM:
+Deze methoden worden in de volgorde hieronder aangeroepen wanneer er een instance van de component wordt aangemaakt en in de DOM gevoegd wordt:
 
 - [**`constructor()`**](#constructor)
 - [`static getDerivedStateFromProps()`](#static-getderivedstatefromprops)
 - [**`render()`**](#render)
 - [**`componentDidMount()`**](#componentdidmount)
 
->Note:
+>Opmerking:
 >
->These methods are considered legacy and you should [avoid them](/blog/2018/03/27/update-on-async-rendering.html) in new code:
+>De volgende methoden worden als verouderd beschouwd en je moet [ze vermijden](/blog/2018/03/27/update-on-async-rendering.html) in nieuwe code:
 >
 >- [`UNSAFE_componentWillMount()`](#unsafe_componentwillmount)
 
-#### Updating {#updating}
+#### Bijwerken (Updating) {#updating}
 
-An update can be caused by changes to props or state. These methods are called in the following order when a component is being re-rendered:
+Bijwerken kan veroorzaakt worden door veranderingen in props of state. Deze methoden worden in de volgorde hieronder aangeroepen wanneer de component opnieuw gerenderd wordt:
 
 - [`static getDerivedStateFromProps()`](#static-getderivedstatefromprops)
 - [`shouldComponentUpdate()`](#shouldcomponentupdate)
@@ -66,29 +66,29 @@ An update can be caused by changes to props or state. These methods are called i
 - [`getSnapshotBeforeUpdate()`](#getsnapshotbeforeupdate)
 - [**`componentDidUpdate()`**](#componentdidupdate)
 
->Note:
+>Opmerking:
 >
->These methods are considered legacy and you should [avoid them](/blog/2018/03/27/update-on-async-rendering.html) in new code:
+>De volgende methoden worden als verouderd beschouwd en je moet [ze vermijden](/blog/2018/03/27/update-on-async-rendering.html) in nieuwe code:
 >
 >- [`UNSAFE_componentWillUpdate()`](#unsafe_componentwillupdate)
 >- [`UNSAFE_componentWillReceiveProps()`](#unsafe_componentwillreceiveprops)
 
-#### Unmounting {#unmounting}
+#### Afkoppelen (Unmounting) {#unmounting}
 
-This method is called when a component is being removed from the DOM:
+Deze medthode wordt aangeroepen wanneer een component uit de DOM verwijderd wordt:
 
 - [**`componentWillUnmount()`**](#componentwillunmount)
 
-#### Error Handling {#error-handling}
+#### Fout Afhandeling {#error-handling}
 
-These methods are called when there is an error during rendering, in a lifecycle method, or in the constructor of any child component.
+Deze methoden worden aangeroepen wanneer er een fout optreedt tijdens het renderen, in een lifecycle methode, of in de constructor van een child component.
 
 - [`static getDerivedStateFromError()`](#static-getderivedstatefromerror)
 - [`componentDidCatch()`](#componentdidcatch)
 
-### Other APIs {#other-apis}
+### Andere APIs {#other-apis}
 
-Each component also provides some other APIs:
+Iedere component heeft ook APIs anders dan voor de lifecylce:
 
   - [`setState()`](#setstate)
   - [`forceUpdate()`](#forceupdate)
@@ -107,9 +107,9 @@ Each component also provides some other APIs:
 
 ## Reference {#reference}
 
-### Commonly Used Lifecycle Methods {#commonly-used-lifecycle-methods}
+### Vaak Gebruikte Lifecycle Methoden {#commonly-used-lifecycle-methods}
 
-The methods in this section cover the vast majority of use cases you'll encounter creating React components. **For a visual reference, check out [this lifecycle diagram](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/).**
+De methoden in dit hoofdstuk dekken de grote meerderheid van gevallen die je tegenkomt bij het maken van React componenten. **Bekijk voor een visuele referentie [dit lifecycle diagram](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/).**
 
 ### `render()` {#render}
 
@@ -117,23 +117,23 @@ The methods in this section cover the vast majority of use cases you'll encounte
 render()
 ```
 
-The `render()` method is the only required method in a class component.
+De `render()` methode is de enige vereiste methode in een class component.
 
-When called, it should examine `this.props` and `this.state` and return one of the following types:
+Wanneer hij wordt aangeroepen, zou hij `this.props` en `this.state` moeten bekijken en één van de volgende typen moeten teruggeven:
 
-- **React elements.** Typically created via [JSX](/docs/introducing-jsx.html). For example, `<div />` and `<MyComponent />` are React elements that instruct React to render a DOM node, or another user-defined component, respectively.
-- **Arrays and fragments.** Let you return multiple elements from render. See the documentation on [fragments](/docs/fragments.html) for more details.
-- **Portals**. Let you render children into a different DOM subtree. See the documentation on [portals](/docs/portals.html) for more details.
-- **String and numbers.** These are rendered as text nodes in the DOM.
-- **Booleans or `null`**. Render nothing. (Mostly exists to support `return test && <Child />` pattern, where `test` is boolean.)
+- **React elementen.** Gebruikelijk aangemaakt met [JSX](/docs/introducing-jsx.html). Bijvoorbeeld, `<div />` en `<MyComponent />` zijn React elementen, die geven React de opdracht geven om respektievelijk een DOM node, of een user-defined component, te renderen.
+- **Arrays en fragments.** Laten je meerde elementen teruggeven vanuit render. Bekijk de documentatie over [fragments](/docs/fragments.html) voor meer details.
+- **Portals**. Laten je children renderen in een andere DOM subtree. Bekijk de documentatie over [portals](/docs/portals.html) voor meer informatie.
+- **String and numbers.** Deze worden gerenderd als tekst nodes in de DOM.
+- **Booleans or `null`**. Renderen niets. (Bestaan voornamelijk om het `return test && <Child />` patroon te ondersteunen, waar `test` een boolean is.)
 
-The `render()` function should be pure, meaning that it does not modify component state, it returns the same result each time it's invoked, and it does not directly interact with the browser.
+De `render()` functie moet puur zijn, daarmee wordt bedoelt dat hij de state niet aanpast, hij geeft steeds hetzelfde resulaat iedere keer als hij wordt aangeroepen, en heeft geen directe interactie met de browser.
 
-If you need to interact with the browser, perform your work in `componentDidMount()` or the other lifecycle methods instead. Keeping `render()` pure makes components easier to think about.
+Als je interactie met de browsert nodig hebt, voer je, in plaats daarvan, dat werk uit in `componentDidMount()` of de andere lifecycle methoden. Het puur houden van `render()` maakt componenten eenvoudiger om over na te denken.
 
-> Note
+> Opmerking
 >
-> `render()` will not be invoked if [`shouldComponentUpdate()`](#shouldcomponentupdate) returns false.
+> `render()` wordt niet aangeroepen wanneer [`shouldComponentUpdate()`](#shouldcomponentupdate) false teruggeeft.
 
 * * *
 
@@ -167,7 +167,7 @@ Constructor is the only place where you should assign `this.state` directly. In 
 
 Avoid introducing any side-effects or subscriptions in the constructor. For those use cases, use `componentDidMount()` instead.
 
->Note
+>Opmerking
 >
 >**Avoid copying props into state! This is a common mistake:**
 >
@@ -225,7 +225,7 @@ You **may call `setState()` immediately** in `componentDidUpdate()` but note tha
 
 If your component implements the `getSnapshotBeforeUpdate()` lifecycle (which is rare), the value it returns will be passed as a third "snapshot" parameter to `componentDidUpdate()`. Otherwise this parameter will be undefined.
 
-> Note
+> Opmerking
 >
 > `componentDidUpdate()` will not be invoked if [`shouldComponentUpdate()`](#shouldcomponentupdate) returns false.
 
@@ -323,7 +323,7 @@ Only use error boundaries for recovering from unexpected exceptions; **don't try
 
 For more details, see [*Error Handling in React 16*](/blog/2017/07/26/error-handling-in-react-16.html).
 
-> Note
+> Opmerking
 > 
 > Error boundaries only catch errors in the components **below** them in the tree. An error boundary can’t catch an error within itself.
 
@@ -358,7 +358,7 @@ class ErrorBoundary extends React.Component {
 }
 ```
 
-> Note
+> Opmerking
 >
 > `getDerivedStateFromError()` is called during the "render" phase, so side-effects are not permitted.
 For those use cases, use `componentDidCatch()` instead.
@@ -413,7 +413,7 @@ class ErrorBoundary extends React.Component {
 }
 ```
 
-> Note
+> Opmerking
 > 
 > In the event of an error, you can render a fallback UI with `componentDidCatch()` by calling `setState`, but this will be deprecated in a future release.
 > Use `static getDerivedStateFromError()` to handle fallback rendering instead.
@@ -430,7 +430,7 @@ The lifecycle methods below are marked as "legacy". They still work, but we don'
 UNSAFE_componentWillMount()
 ```
 
-> Note
+> Opmerking
 >
 > This lifecycle was previously named `componentWillMount`. That name will continue to work until version 17. Use the [`rename-unsafe-lifecycles` codemod](https://github.com/reactjs/react-codemod#rename-unsafe-lifecycles) to automatically update your components.
 
@@ -448,7 +448,7 @@ This is the only lifecycle method called on server rendering.
 UNSAFE_componentWillReceiveProps(nextProps)
 ```
 
-> Note
+> Opmerking
 >
 > This lifecycle was previously named `componentWillReceiveProps`. That name will continue to work until version 17. Use the [`rename-unsafe-lifecycles` codemod](https://github.com/reactjs/react-codemod#rename-unsafe-lifecycles) to automatically update your components.
 
@@ -476,7 +476,7 @@ React doesn't call `UNSAFE_componentWillReceiveProps()` with initial props durin
 UNSAFE_componentWillUpdate(nextProps, nextState)
 ```
 
-> Note
+> Opmerking
 >
 > This lifecycle was previously named `componentWillUpdate`. That name will continue to work until version 17. Use the [`rename-unsafe-lifecycles` codemod](https://github.com/reactjs/react-codemod#rename-unsafe-lifecycles) to automatically update your components.
 
@@ -486,7 +486,7 @@ Note that you cannot call `this.setState()` here; nor should you do anything els
 
 Typically, this method can be replaced by `componentDidUpdate()`. If you were reading from the DOM in this method (e.g. to save a scroll position), you can move that logic to `getSnapshotBeforeUpdate()`.
 
-> Note
+> Opmerking
 >
 > `UNSAFE_componentWillUpdate()` will not be invoked if [`shouldComponentUpdate()`](#shouldcomponentupdate) returns false.
 
@@ -587,7 +587,7 @@ Normally you should try to avoid all uses of `forceUpdate()` and only read from 
 
 ### `defaultProps` {#defaultprops}
 
-`defaultProps` can be defined as a property on the component class itself, to set the default props for the class. This is used for undefined props, but not for null props. For example:
+`defaultProps` kunnen gedefinieerd worden als een property van de component class zelf, om de standaard props waarden voor de class in te stellen. Die worden gebruikt voor undefined props, maar niet voor null props. Bijvoorbeeld:
 
 ```js
 class CustomButton extends React.Component {
@@ -599,7 +599,7 @@ CustomButton.defaultProps = {
 };
 ```
 
-If `props.color` is not provided, it will be set by default to `'blue'`:
+Als `props.color` niet is meegegeven, wordt hij op default waarde `'blue'` gezet:
 
 ```js
   render() {
@@ -607,7 +607,7 @@ If `props.color` is not provided, it will be set by default to `'blue'`:
   }
 ```
 
-If `props.color` is set to null, it will remain null:
+Als `props.color` op null gezet wordt, zal hij null blijven:
 
 ```js
   render() {
@@ -627,16 +627,16 @@ The `displayName` string is used in debugging messages. Usually, you don't need 
 
 ### `props` {#props}
 
-`this.props` contains the props that were defined by the caller of this component. See [Components and Props](/docs/components-and-props.html) for an introduction to props.
+`this.props` bevat de props die bepaald zijn door de aanroeper (caller) van deze component. Bekijk [Componenten en Props](/docs/components-and-props.html) voor een introductie over props.
 
-In particular, `this.props.children` is a special prop, typically defined by the child tags in the JSX expression rather than in the tag itself.
+In het bijzonder is `this.props.children` een speciale prop, meestal gedefinieerd door de child tags in de JSX-expressie in plaats van in de tag zelf.
 
 ### `state` {#state}
 
-The state contains data specific to this component that may change over time. The state is user-defined, and it should be a plain JavaScript object.
+De state bevat data specifiek voor deze component die over te tijd kan wijzigen. De state wordt door de gebruiker gedefinieerd, en het moet een gewoon JavaScript object zijn.
 
-If some value isn't used for rendering or data flow (for example, a timer ID), you don't have to put it in the state. Such values can be defined as fields on the component instance.
+Als een bepaalde waarde niet wordt gebruikt voor het renderen of dataflow (bijvoorbeeld, een ID van een timer), hoef je die niet in de state op te nemen. Zulke waarden kun je definiëren als velden op de component instance.
 
-See [State and Lifecycle](/docs/state-and-lifecycle.html) for more information about the state.
+Bekijke [State and Lifecycle](/docs/state-and-lifecycle.html) voor meer informatie over de state.
 
-Never mutate `this.state` directly, as calling `setState()` afterwards may replace the mutation you made. Treat `this.state` as if it were immutable.
+Pas `this.state` nooit direct aan, omdat een aaroep van `setState()` daarna je aanpassing zou kunnen vervangen. Behandel `this.state` alsof het immutable is.
