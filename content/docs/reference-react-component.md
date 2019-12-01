@@ -143,47 +143,47 @@ Als je interactie met de browsert nodig hebt, voer je, in plaats daarvan, dat we
 constructor(props)
 ```
 
-**If you don't initialize state and you don't bind methods, you don't need to implement a constructor for your React component.**
+**Als je geen state initialiseert en geen methoden bind hoef je geen constructor te implementeren voor je React component.**
 
-The constructor for a React component is called before it is mounted. When implementing the constructor for a `React.Component` subclass, you should call `super(props)` before any other statement. Otherwise, `this.props` will be undefined in the constructor, which can lead to bugs.
+De constructor voor een React component wordt aangeroepen voordat het aangekoppeld (gemount) wordt. Wanneer je de constructor voor een `React.Component` subclass implementeert, moet je `super(props)` aanroepen voor ieder ander statement. Anders zal `this.props` ongedefineerd zijn in de constructor, en dat kan leiden to bugs.
 
-Typically, in React constructors are only used for two purposes:
+Gewoonlijk worden constructors in React maar om twee redenen gebruikt:
 
-* Initializing [local state](/docs/state-and-lifecycle.html) by assigning an object to `this.state`.
-* Binding [event handler](/docs/handling-events.html) methods to an instance.
+* Het initialiseren van de [lokale state](/docs/state-and-lifecycle.html) door een object toe te wijzen aan `this.state`.
+* Het binden van [event handler](/docs/handling-events.html) methoden aan de instance.
 
-You **should not call `setState()`** in the `constructor()`. Instead, if your component needs to use local state, **assign the initial state to `this.state`** directly in the constructor:
+Je **moet `setState()` niet aanroepen** in de `constructor()`. In plaats daarvan wijs je, als je component lokale state gebruikt, **de initiële state aan `this.state` toe** meteen in de constructor:
 
 ```js
 constructor(props) {
   super(props);
-  // Don't call this.setState() here!
+  // this.setState() niet aanroepen hier!
   this.state = { counter: 0 };
   this.handleClick = this.handleClick.bind(this);
 }
 ```
 
-Constructor is the only place where you should assign `this.state` directly. In all other methods, you need to use `this.setState()` instead.
+De constructor is de enige plek waar je `this.state` direct mag toewijzen. In alle andere methoden moet je in plaats daarvan `this.setState()` gebruiken.
 
-Avoid introducing any side-effects or subscriptions in the constructor. For those use cases, use `componentDidMount()` instead.
+Voorkom het introduceren van neveneffecten of subscriptions in de constructor. Gebruik in plaats daarvan voor die zaken `componentDidMount()`.
 
 >Opmerking
 >
->**Avoid copying props into state! This is a common mistake:**
+>**Voorkom het kopieren van props naar de state! Dit is een veelvoorkomende fout:**
 >
 >```js
 >constructor(props) {
 >  super(props);
->  // Don't do this!
+>  // Niet doen!
 >  this.state = { color: props.color };
 >}
 >```
 >
->The problem is that it's both unnecessary (you can use `this.props.color` directly instead), and creates bugs (updates to the `color` prop won't be reflected in the state).
+>Het probleem is dat het zowel onnodig is (je kunt `this.props.color` direct gebruiken), als bugs creëert (aanpassingen aan `color` prop worden niet weerspiegeld in de state).
 >
->**Only use this pattern if you intentionally want to ignore prop updates.** In that case, it makes sense to rename the prop to be called `initialColor` or `defaultColor`. You can then force a component to "reset" its internal state by [changing its `key`](/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key) when necessary.
+>**Gebruik die patroon alleen als je opzettelijk prop aanpassingen wilt negeren.** In dat geval is het zinvol de naam van de prop de wijzigen in `initialColor` of `defaultColor`. Je kunt dan de state van een component indien nodig "resetten" door [zijn `key`] te wijzigen (/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key).
 >
->Read our [blog post on avoiding derived state](/blog/2018/06/07/you-probably-dont-need-derived-state.html) to learn about what to do if you think you need some state to depend on the props.
+>Lees onze [blogpost over het voorkomen van afgeleide state](/blog/2018/06/07/you-probably-dont-need-derived-state.html) om te leren over wat je moet doen als je denk dat je een state nodig hebt die afhangt van de props.
 
 
 * * *
@@ -194,11 +194,11 @@ Avoid introducing any side-effects or subscriptions in the constructor. For thos
 componentDidMount()
 ```
 
-`componentDidMount()` is invoked immediately after a component is mounted (inserted into the tree). Initialization that requires DOM nodes should go here. If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
+`componentDidMount()` wordt aangeroepen onmiddelijk nadat een component is gemount (toegevoegd aan de boomstructuur). Initialisatie die DOM nodes nodig heeft moet hier komen, Als je data moet inladen van een extern endpoint, is dit een goede plek om het netwerkverzoek te initialiseren.
 
-This method is a good place to set up any subscriptions. If you do that, don't forget to unsubscribe in `componentWillUnmount()`.
+Deze methode is een goede plaats om subscriptions op te zetten. Als je dat doet, vergeet dan niet dat weer ongedaan te maken in `componentWillUnmount()`.
 
-You **may call `setState()` immediately** in `componentDidMount()`. It will trigger an extra rendering, but it will happen before the browser updates the screen. This guarantees that even though the `render()` will be called twice in this case, the user won't see the intermediate state. Use this pattern with caution because it often causes performance issues. In most cases, you should be able to assign the initial state in the `constructor()` instead. It can, however, be necessary for cases like modals and tooltips when you need to measure a DOM node before rendering something that depends on its size or position.
+Je **kunt `setState()` onmiddelijk aanroepen** in `componentDidMount()`. Het zal een extra render starten, maar dat zal gebeuren voordat de browser het scherm bijwerkt. Dit garandeert dat, hoewel de `render()` in dit geval twee keer aangeroepen is, de gebruiker de tussentoestand niet zal zien. Gebruik dit patroon met voorzichtigheid omdat het vaak tot performance problemen kan leiden. In de meeste gevallen zou je in staat moeten zijn om de initiële state toe te wijzen in de `constructor()`. Het kan echter noodzakelijk zijn, voor gevallen zoals modals en tooltips, wanneer je eerst een DOM node moet opmeten, voordat je iets rendert dat afhangt van de grootte of positie ervan.
 
 * * *
 
@@ -208,26 +208,26 @@ You **may call `setState()` immediately** in `componentDidMount()`. It will trig
 componentDidUpdate(prevProps, prevState, snapshot)
 ```
 
-`componentDidUpdate()` is invoked immediately after updating occurs. This method is not called for the initial render.
+`componentDidUpdate()` wordt onmiddelijk aangeroepen nadat een aanpassing plaatsvindt. Deze methode wordt niet aangeroepen voor de initiële render.
 
-Use this as an opportunity to operate on the DOM when the component has been updated. This is also a good place to do network requests as long as you compare the current props to previous props (e.g. a network request may not be necessary if the props have not changed).
+Gebruik deze gelegenheid om de DOM te bewerken wanneer de component gewijzigd is. Dit is ook een goede plek om netwerkverzoeken te doen zo lang je de huidge props met de vorige vergelijkt (e.g. een netwerkverzoek is misschien onnodig als de props niet gewijzigd zijn).
 
 ```js
 componentDidUpdate(prevProps) {
-  // Typical usage (don't forget to compare props):
+  // Normaal gebruik (vergeet niet de props te vergelijken):
   if (this.props.userID !== prevProps.userID) {
     this.fetchData(this.props.userID);
   }
 }
 ```
 
-You **may call `setState()` immediately** in `componentDidUpdate()` but note that **it must be wrapped in a condition** like in the example above, or you'll cause an infinite loop. It would also cause an extra re-rendering which, while not visible to the user, can affect the component performance. If you're trying to "mirror" some state to a prop coming from above, consider using the prop directly instead. Read more about [why copying props into state causes bugs](/blog/2018/06/07/you-probably-dont-need-derived-state.html).
+Je **kunt `setState()` meteen aanroepen** in `componentDidUpdate()` maar merk op dat **binnen een conditie moet gebeuren** zoals in het voorbeeld hierboven, anders veroorzaak je een oneindige lus. Het zou ook een extra render tot gevolg hebben die, hoewel onzichtbaar voor de gebruiker, wel de performance van het component kan beïnvloeden. Als je probeert een state the spiegelen naar een prop die van boven komt, overweeg dan de prop direct te gebruiken. Lees meer over [waarom het kopiëren van props naar de state tot bugs kan leiden](/blog/2018/06/07/you-probably-dont-need-derived-state.html).
 
-If your component implements the `getSnapshotBeforeUpdate()` lifecycle (which is rare), the value it returns will be passed as a third "snapshot" parameter to `componentDidUpdate()`. Otherwise this parameter will be undefined.
+Als je component de `getSnapshotBeforeUpdate()` lifecycle methode implementeert (wat zeldzaam is), zal de waarde die het teruggeeft als derde "snapshot" parameter worden doorgegeven aan `componentDidUpdate()`. Zo niet zal deze parameter ongedefinieerd zijn.
 
 > Opmerking
 >
-> `componentDidUpdate()` will not be invoked if [`shouldComponentUpdate()`](#shouldcomponentupdate) returns false.
+> `componentDidUpdate()` wordt niet aangeroepen als [`shouldComponentUpdate()`](#shouldcomponentupdate) false teruggeeft.
 
 * * *
 
@@ -611,7 +611,7 @@ Als `props.color` op null gezet wordt, zal hij null blijven:
 
 ```js
   render() {
-    return <CustomButton color={null} /> ; // props.color will remain null
+    return <CustomButton color={null} /> ; // props.color zall null blijven
   }
 ```
 
@@ -619,7 +619,7 @@ Als `props.color` op null gezet wordt, zal hij null blijven:
 
 ### `displayName` {#displayname}
 
-The `displayName` string is used in debugging messages. Usually, you don't need to set it explicitly because it's inferred from the name of the function or class that defines the component. You might want to set it explicitly if you want to display a different name for debugging purposes or when you create a higher-order component, see [Wrap the Display Name for Easy Debugging](/docs/higher-order-components.html#convention-wrap-the-display-name-for-easy-debugging) for details.
+De string `displayName` wordt gebruikt in debug berichten. Normaal gesproken hoef je deze niet expliciet in te stellen, omdat hij afgeleid wordt van de naam van de functie of class die de component definieert. Mogelijk wil je hem expliciet instellen op een andere naam voor debug-doeleinden, of wanneer je een higher-order component maakt, zie [Wrap de Display Name om Makkelijk te Debuggen](/docs/higher-order-components.html#convention-wrap-the-display-name-for-easy-debugging) voor details.
 
 * * *
 
