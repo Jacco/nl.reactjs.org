@@ -221,7 +221,7 @@ componentDidUpdate(prevProps) {
 }
 ```
 
-Je **kunt `setState()` meteen aanroepen** in `componentDidUpdate()` maar merk op dat **binnen een conditie moet gebeuren** zoals in het voorbeeld hierboven, anders veroorzaak je een oneindige lus. Het zou ook een extra render tot gevolg hebben die, hoewel onzichtbaar voor de gebruiker, wel de performance van het component kan beïnvloeden. Als je probeert een state the spiegelen naar een prop die van boven komt, overweeg dan de prop direct te gebruiken. Lees meer over [waarom het kopiëren van props naar de state tot bugs kan leiden](/blog/2018/06/07/you-probably-dont-need-derived-state.html).
+Je **kunt `setState()` meteen aanroepen** in `componentDidUpdate()` maar merk op dat **binnen een conditie moet gebeuren** zoals in het voorbeeld hierboven, anders veroorzaak je een oneindige lus. Het zou ook een extra render tot gevolg hebben die, hoewel onzichtbaar voor de gebruiker, wel de performance van de component kan beïnvloeden. Als je probeert een state the spiegelen naar een prop die van boven komt, overweeg dan de prop direct te gebruiken. Lees meer over [waarom het kopiëren van props naar de state tot bugs kan leiden](/blog/2018/06/07/you-probably-dont-need-derived-state.html).
 
 Als je component de `getSnapshotBeforeUpdate()` lifecycle methode implementeert (wat zeldzaam is), zal de waarde die het teruggeeft als derde "snapshot" parameter worden doorgegeven aan `componentDidUpdate()`. Zo niet zal deze parameter ongedefinieerd zijn.
 
@@ -237,15 +237,15 @@ Als je component de `getSnapshotBeforeUpdate()` lifecycle methode implementeert 
 componentWillUnmount()
 ```
 
-`componentWillUnmount()` is invoked immediately before a component is unmounted and destroyed. Perform any necessary cleanup in this method, such as invalidating timers, canceling network requests, or cleaning up any subscriptions that were created in `componentDidMount()`.
+`componentWillUnmount()` wordt aangeroepen vlak voor een component wordt ge-unmount en destroyed. Voer alle benodigde opruim-code uit in deze methode, zoals het annuleren van timers, afbreken van netwerkverzoeken, of het ongedaan maken van subscriptions die gemaakt zijn in `componentDidMount()`.
 
-You **should not call `setState()`** in `componentWillUnmount()` because the component will never be re-rendered. Once a component instance is unmounted, it will never be mounted again.
+Je **moet `setState()` niet aanroepen** in `componentWillUnmount()` omdat de component nooit opnieuw rendert. Zodra een component instance ge-unmount is, zal deze nooit meer worden ge-mount.
 
 * * *
 
-### Rarely Used Lifecycle Methods {#rarely-used-lifecycle-methods}
+### Zelden Gebruikte Lifecycle Methoden {#rarely-used-lifecycle-methods}
 
-The methods in this section correspond to uncommon use cases. They're handy once in a while, but most of your components probably don't need any of them. **You can see most of the methods below on [this lifecycle diagram](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/) if you click the "Show less common lifecycles" checkbox at the top of it.**
+De methoden in dit hoofdstuk hebben te maken met ongewone gevallen. Ze zijn heel soms handig, maar je meeste componenten hebben ze waarschijnlijk niet nodig. **Je kunt de meeste methoden hieronder zien in [dit lifecycle diagram](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/) als je klikt op de "Show less common lifecycles" checkbox bovenaan.**
 
 
 ### `shouldComponentUpdate()` {#shouldcomponentupdate}
@@ -254,17 +254,17 @@ The methods in this section correspond to uncommon use cases. They're handy once
 shouldComponentUpdate(nextProps, nextState)
 ```
 
-Use `shouldComponentUpdate()` to let React know if a component's output is not affected by the current change in state or props. The default behavior is to re-render on every state change, and in the vast majority of cases you should rely on the default behavior.
+Gerbruik `shouldComponentUpdate()` om React te laten weten of een component zijn output niet beïnvloed wordt door de huidige wijziging van state of props. Het standaardgedrag is om opnieuw te renderen bij iedere state wijziging, en in het merendeel van de gevallen zou je op dit gedrag moeten vertrouwen.
 
-`shouldComponentUpdate()` is invoked before rendering when new props or state are being received. Defaults to `true`. This method is not called for the initial render or when `forceUpdate()` is used.
+`shouldComponentUpdate()` wordt aangeroepen voor het renderen wanneer nieuwe props of state worden ontvangen. Geeft standaard `true` terug. Deze methode wordt niet aangroepen bij de initiële render of wanneer `forceUpdate()` wordt gebruikt.
 
-This method only exists as a **[performance optimization](/docs/optimizing-performance.html).** Do not rely on it to "prevent" a rendering, as this can lead to bugs. **Consider using the built-in [`PureComponent`](/docs/react-api.html#reactpurecomponent)** instead of writing `shouldComponentUpdate()` by hand. `PureComponent` performs a shallow comparison of props and state, and reduces the chance that you'll skip a necessary update.
+Deze methode bestaat alleen als een **[performance optimalisatie](/docs/optimizing-performance.html).** Vertrouw er niet op dat het een render zal "voorkomen", omdat dit tot fouten kan leiden. **Overweeg de ingebouwde [`PureComponent`](/docs/react-api.html#reactpurecomponent)** te gebruiken, in plaats van met de hand een `shouldComponentUpdate()` implementatie te schrijven. `PureComponent` voert shallow vergelijking uit van props en state, en verlaagt de kans dat je een benodigde update mist.
 
-If you are confident you want to write it by hand, you may compare `this.props` with `nextProps` and `this.state` with `nextState` and return `false` to tell React the update can be skipped. Note that returning `false` does not prevent child components from re-rendering when *their* state changes.
+Als je er zeker van bent dat je het met de hand wilt schrijven, kun je `this.props` met `nextProps` en `this.state` met `nextState` vergelijken en `false` teruggeven om React te vertellen dat de update overgeslagen kan worden. Merk op dat `false` teruggeven niet verhindert dat child componenten opnieuw renderen wanner *hun* state wijzigt.
 
-We do not recommend doing deep equality checks or using `JSON.stringify()` in `shouldComponentUpdate()`. It is very inefficient and will harm performance.
+We raden niet aan om `deep equality checks` of `JSON.stringify()` te gebruiken in `shouldComponentUpdate()`. Dat is heel inefficient en zal de performances schaden.
 
-Currently, if `shouldComponentUpdate()` returns `false`, then [`UNSAFE_componentWillUpdate()`](#unsafe_componentwillupdate), [`render()`](#render), and [`componentDidUpdate()`](#componentdidupdate) will not be invoked. In the future React may treat `shouldComponentUpdate()` as a hint rather than a strict directive, and returning `false` may still result in a re-rendering of the component.
+Momenteel worden, wanneer `shouldComponentUpdate()` `false` teruggeeft, [`UNSAFE_componentWillUpdate()`](#unsafe_componentwillupdate), [`render()`](#render), en [`componentDidUpdate()`](#componentdidupdate) niet aangeroepen. In de toekomst behandeld React `shouldComponentUpdate()` mogelijk alleen als een hint in plaats van een strikte opdracht, en kan `false` teruggeven nog steeds resulteren in het opnieuw renderen van de component.
 
 * * *
 
@@ -274,22 +274,22 @@ Currently, if `shouldComponentUpdate()` returns `false`, then [`UNSAFE_component
 static getDerivedStateFromProps(props, state)
 ```
 
-`getDerivedStateFromProps` is invoked right before calling the render method, both on the initial mount and on subsequent updates. It should return an object to update the state, or null to update nothing.
+`getDerivedStateFromProps` wordt aangeroepen net voor het aanroepen van de render methode, zowel bij de initiële mount als bij de volgende updates. Het moet een object teruggeven om de state bij te werken, of null om niets bij te werken.
 
-This method exists for [rare use cases](/blog/2018/06/07/you-probably-dont-need-derived-state.html#when-to-use-derived-state) where the state depends on changes in props over time. For example, it might be handy for implementing a `<Transition>` component that compares its previous and next children to decide which of them to animate in and out.
+Deze methode bestaat voor [zeldzame gevallen](/blog/2018/06/07/you-probably-dont-need-derived-state.html#when-to-use-derived-state) waar de state afhangt van veranderingen van props in de tijd. Het zou bijvoorbeeld handig kunnen zijn voor het implementeren van een `<Transition>` component dat de vorige en volgende children vergelijkt om te beslissen welke in of uit te animeren.
 
-Deriving state leads to verbose code and makes your components difficult to think about.  
-[Make sure you're familiar with simpler alternatives:](/blog/2018/06/07/you-probably-dont-need-derived-state.html)
+State afleiden leidt tot veel code en maakt je compnenten moeilijk te begrijpen.  
+[Wees er zeker van dat je bekend bent met eenvoudigere alternatieven:](/blog/2018/06/07/you-probably-dont-need-derived-state.html)
 
-* If you need to **perform a side effect** (for example, data fetching or an animation) in response to a change in props, use [`componentDidUpdate`](#componentdidupdate) lifecycle instead.
+* Als je een **neveneffect moet uitvoeren** (bijvoorbeeld, het ophalen van data of een animatiedata) in reactie op een verandering van de props, gebruik dan liever de [`componentDidUpdate`](#componentdidupdate) lifecycle.
 
-* If you want to **re-compute some data only when a prop changes**, [use a memoization helper instead](/blog/2018/06/07/you-probably-dont-need-derived-state.html#what-about-memoization).
+* Als je **data wilt herberekenen alleen wanneer een prop wijzigt**, [gebruik dan eerder een memoization helper](/blog/2018/06/07/you-probably-dont-need-derived-state.html#what-about-memoization).
 
-* If you want to **"reset" some state when a prop changes**, consider either making a component [fully controlled](/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-controlled-component) or [fully uncontrolled with a `key`](/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key) instead.
+* Als je **een state wilt "resetten" wanneer een prop wijzigt**, overweeg dan om ofwel een [fully controlled](/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-controlled-component) component e maken, of een [fully uncontrolled component met een `key`](/blog/2018/06/07/you-probably-dont-need-derived-state.html#recommendation-fully-uncontrolled-component-with-a-key) te maken.
 
-This method doesn't have access to the component instance. If you'd like, you can reuse some code between `getDerivedStateFromProps()` and the other class methods by extracting pure functions of the component props and state outside the class definition.
+Deze methode heeft geen toegang tot de instantie van de component. Als je wilt, kun je wat code hergebruiken tussen `getDerivedStateFromProps()` en de andere class methoden, door pure functies van de props en state van het component uit de class definitie te halen.
 
-Note that this method is fired on *every* render, regardless of the cause. This is in contrast to `UNSAFE_componentWillReceiveProps`, which only fires when the parent causes a re-render and not as a result of a local `setState`.
+Merk op dat deze methode afgevuurd wordt bij *iedere* render, ongeacht de oorzaak ervan. Dit in tegenstelling tot `UNSAFE_componentWillReceiveProps`, die alleen af gaat als de  parent de re-render veroorzaakt en niet als gevolg van een lokale `setState`.
 
 * * *
 
@@ -299,17 +299,17 @@ Note that this method is fired on *every* render, regardless of the cause. This 
 getSnapshotBeforeUpdate(prevProps, prevState)
 ```
 
-`getSnapshotBeforeUpdate()` is invoked right before the most recently rendered output is committed to e.g. the DOM. It enables your component to capture some information from the DOM (e.g. scroll position) before it is potentially changed. Any value returned by this lifecycle will be passed as a parameter to `componentDidUpdate()`.
+`getSnapshotBeforeUpdate()` wordt aangeroepen vlak voordat de meest recente gerenderde output wordt overhandigd aan bijvoorbeeld de DOM. Het stelt je component in staat om informatie uit de DOM op te vangen (bijvoorbeeld de scroll positie) voordat die eventueel wordt gewijzigd. Elke waarde die door deze lifecycle teruggegeven wordt, zal worden doorgegeven als een parameter naar `componentDidUpdate()`.
 
-This use case is not common, but it may occur in UIs like a chat thread that need to handle scroll position in a special way.
+Dit geval is niet gebruikelijk, maar kan voorkomen bij UIs die de scroll positie op een speciale manier moeten behandelen, zoals bij chat-threads.
 
-A snapshot value (or `null`) should be returned.
+Er moet een snapshot waarde (of `null`) worden teruggegeven.
 
-For example:
+Bijvoorbeeld:
 
 `embed:react-component-reference/get-snapshot-before-update.js`
 
-In the above examples, it is important to read the `scrollHeight` property in `getSnapshotBeforeUpdate` because there may be delays between "render" phase lifecycles (like `render`) and "commit" phase lifecycles (like `getSnapshotBeforeUpdate` and `componentDidUpdate`).
+In het bovenstaande voorbeeld is het belangrijk om de `scrollHeight` property te lezen in `getSnapshotBeforeUpdate`, omdat er vertragingen kunnen zijn tussen de "render" fase lifecycles (zoals `render`) en "commit" fase lifecycles (zoals `getSnapshotBeforeUpdate` en `componentDidUpdate`).
 
 * * *
 
