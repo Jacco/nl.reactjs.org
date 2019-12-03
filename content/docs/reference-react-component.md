@@ -371,15 +371,15 @@ Gebruik voor die gevallen in plaats daarvan `componentDidCatch()`.
 componentDidCatch(error, info)
 ```
 
-This lifecycle is invoked after an error has been thrown by a descendant component.
-It receives two parameters:
+Deze lifecycle methode wordt aangeroepen nadat er een fout is opgetreden door een descendant component.
+Het ontvangt twee parameters:
 
-1. `error` - The error that was thrown.
-2. `info` - An object with a `componentStack` key containing [information about which component threw the error](/docs/error-boundaries.html#component-stack-traces).
+1. `error` - De fout die optrad.
+2. `info` - Een object met een `componentStack` veld met [informatie over in welk component de fout optrad](/docs/error-boundaries.html#component-stack-traces).
 
 
-`componentDidCatch()` is called during the "commit" phase, so side-effects are permitted.
-It should be used for things like logging errors:
+`componentDidCatch()` wordt aangeroepen gedurende de "commit" fase, dus zijn neveneffecten toegestaan.
+Het moet gebruikt worden voor zaken als het loggen van fouten:
 
 ```js{12-19}
 class ErrorBoundary extends React.Component {
@@ -415,14 +415,14 @@ class ErrorBoundary extends React.Component {
 
 > Opmerking
 > 
-> In the event of an error, you can render a fallback UI with `componentDidCatch()` by calling `setState`, but this will be deprecated in a future release.
-> Use `static getDerivedStateFromError()` to handle fallback rendering instead.
+> In het geval van een fout kun je een fallback UI renderen met `componentDidCatch()` door `setState` aan te roepen, maar dit zal uitgefaseerd worden in een toekomstige release.
+> Gebruik in plaats daarvan `static getDerivedStateFromError()` om een fallback te renderen.
 
 * * *
 
-### Legacy Lifecycle Methods {#legacy-lifecycle-methods}
+### Verouderde Lifecycle Methoden {#legacy-lifecycle-methods}
 
-The lifecycle methods below are marked as "legacy". They still work, but we don't recommend using them in the new code. You can learn more about migrating away from legacy lifecycle methods in [this blog post](/blog/2018/03/27/update-on-async-rendering.html).
+De lifecycle methoden hieronder zijn gemarkeerd als "legacy". Ze werken nog steeds, maar we raden aan om ze niet te gebruiken in nieuwe code. Je kunt meer te weten komen over het migreren van legacy lifecycle methoden in [deze blog](/blog/2018/03/27/update-on-async-rendering.html).
 
 ### `UNSAFE_componentWillMount()` {#unsafe_componentwillmount}
 
@@ -432,13 +432,13 @@ UNSAFE_componentWillMount()
 
 > Opmerking
 >
-> This lifecycle was previously named `componentWillMount`. That name will continue to work until version 17. Use the [`rename-unsafe-lifecycles` codemod](https://github.com/reactjs/react-codemod#rename-unsafe-lifecycles) to automatically update your components.
+> Deze lifecycle methode heette voorheen `componentWillMount`. Die naam zal blijven werken tot versie 17. Gebruik de [`rename-unsafe-lifecycles` codemod](https://github.com/reactjs/react-codemod#rename-unsafe-lifecycles) om je componenten automatisch bij te werken.
 
-`UNSAFE_componentWillMount()` is invoked just before mounting occurs. It is called before `render()`, therefore calling `setState()` synchronously in this method will not trigger an extra rendering. Generally, we recommend using the `constructor()` instead for initializing state.
+`UNSAFE_componentWillMount()` wordt aangeroepen vlak voordat het mounten plaatsvindt. Het wordt aangeroepen voor `render()`, daarom zal het synchroon aanroepen van `setState()` in deze methode geen extra render veroorzaken. In het algemeen, raden we aan om in plaats daarvan, de `constructor()` te gebruiken om de state te initialiseren.
 
-Avoid introducing any side-effects or subscriptions in this method. For those use cases, use `componentDidMount()` instead.
+Voorkom het introduceren van neveneffecten of subscriptions in deze methode. Gebruik in die gevallen in plaats daarvan `componentDidMount()`.
 
-This is the only lifecycle method called on server rendering.
+Dit is de enige lifecycle methode die aangeroepen wordt in geval van renderen op een server.
 
 * * *
 
@@ -452,7 +452,7 @@ UNSAFE_componentWillReceiveProps(nextProps)
 >
 > This lifecycle was previously named `componentWillReceiveProps`. That name will continue to work until version 17. Use the [`rename-unsafe-lifecycles` codemod](https://github.com/reactjs/react-codemod#rename-unsafe-lifecycles) to automatically update your components.
 
-> Note:
+> Opmerking:
 >
 > Using this lifecycle method often leads to bugs and inconsistencies
 >
