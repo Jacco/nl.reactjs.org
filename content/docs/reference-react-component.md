@@ -315,25 +315,25 @@ In het bovenstaande voorbeeld is het belangrijk om de `scrollHeight` property te
 
 ### Error boundaries {#error-boundaries}
 
-[Error boundaries](/docs/error-boundaries.html) are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. Error boundaries catch errors during rendering, in lifecycle methods, and in constructors of the whole tree below them.
+[Error boundaries](/docs/error-boundaries.html) zijn React componenten die JavaScript fouten afvangen overal in hun child componenten boom, ze loggen deze fouten, en geven een fallback UI weer in plaats van de component die ge-crashed is. Error boundaries vangen fouten af tijdens het renderen, in de lifecycle methoden, en in constructors van de hele boom onder hen.
 
-A class component becomes an error boundary if it defines either (or both) of the lifecycle methods `static getDerivedStateFromError()` or `componentDidCatch()`. Updating state from these lifecycles lets you capture an unhandled JavaScript error in the below tree and display a fallback UI.
+Een class component wordt een error boundary als het één (of beide) van de lifecycle methoden `static getDerivedStateFromError()` en `componentDidCatch()` implementeert. De state aanpassing vanuit deze lifecycle methoden geeft je de mogelijkheid om een onafgehandelde JavaScript fout af te vangen in de boom er beneden en een fallback UI weer te geven.
 
-Only use error boundaries for recovering from unexpected exceptions; **don't try to use them for control flow.**
+Gebruik error boundaries alle om van onverwachte exceptions te herstellen; **probeer ze niet te gebruiken om de flow te besturen.**
 
-For more details, see [*Error Handling in React 16*](/blog/2017/07/26/error-handling-in-react-16.html).
+Voor meer details, bekijk [*Fout Afhandeling in React 16*](/blog/2017/07/26/error-handling-in-react-16.html).
 
 > Opmerking
 > 
-> Error boundaries only catch errors in the components **below** them in the tree. An error boundary can’t catch an error within itself.
+> Error boundaries vangen alleen founten af in de components **onder** hen in de boom. Een error boundary kan geen fout in zichzelf afvangen.
 
 ### `static getDerivedStateFromError()` {#static-getderivedstatefromerror}
 ```javascript
 static getDerivedStateFromError(error)
 ```
 
-This lifecycle is invoked after an error has been thrown by a descendant component.
-It receives the error that was thrown as a parameter and should return a value to update state.
+Deze lifecycle methode wordt aangeroepen nadat er een fout is opgetreden in een descendant component.
+Het ontvangt de fout die opgetreden is als een parameter en moet een waarde terug geven om de state mee aan te passen.
 
 ```js{7-10,13-16}
 class ErrorBoundary extends React.Component {
@@ -343,14 +343,14 @@ class ErrorBoundary extends React.Component {
   }
 
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
+    // Pas de state aan zodat de volgende render de fallback UI toont.
     return { hasError: true };
   }
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      // Je kunt elke aangepaste fallback UI tonen
+      return <h1>Er ging iets mis.</h1>;
     }
 
     return this.props.children; 
@@ -360,8 +360,8 @@ class ErrorBoundary extends React.Component {
 
 > Opmerking
 >
-> `getDerivedStateFromError()` is called during the "render" phase, so side-effects are not permitted.
-For those use cases, use `componentDidCatch()` instead.
+> `getDerivedStateFromError()` wordt aangeroepen tijdens de "render" fase, dus neveneffecten zijn niet toegestaan.
+Gebruik voor die gevallen in plaats daarvan `componentDidCatch()`.
 
 * * *
 
@@ -389,12 +389,12 @@ class ErrorBoundary extends React.Component {
   }
 
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI.
+    // Pas de state aan zodat de volgende render de fallback UI toont.
     return { hasError: true };
   }
 
   componentDidCatch(error, info) {
-    // Example "componentStack":
+    // Voorbeeld "componentStack":
     //   in ComponentThatThrows (created by App)
     //   in ErrorBoundary (created by App)
     //   in div (created by App)
@@ -404,8 +404,8 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
-      return <h1>Something went wrong.</h1>;
+      // Je kunt elke aangepaste fallback UI tonen
+      return <h1>Er ging iets mis.</h1>;
     }
 
     return this.props.children; 
